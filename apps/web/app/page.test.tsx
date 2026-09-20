@@ -13,31 +13,32 @@ describe("landing page", () => {
     ).toHaveLength(2);
   });
 
-  it("explains the assisted selling journey", () => {
+  it("explains the selling journey in everyday language", () => {
     render(<HomePage />);
 
     expect(
       screen.getByRole("heading", {
-        name: /transformez vos objets en boutique en quelques minutes/i,
+        name: /vendez facilement ce que vous n’utilisez plus/i,
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /photographier une pièce/i }),
+      screen.getByRole("link", { name: /créer ma boutique/i }),
     ).toHaveAttribute("href", "/sell/room");
-    expect(screen.getByRole("link", { name: /vendre un objet/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /voir les bonnes affaires/i })).toHaveAttribute(
       "href",
-      "/sell/item",
+      "/browse",
     );
-    expect(screen.getByText("Prenez une photo")).toBeInTheDocument();
-    expect(screen.getByText("L’IA identifie les objets")).toBeInTheDocument();
-    expect(screen.getByText("Créez votre boutique")).toBeInTheDocument();
+    expect(screen.getByText("Prenez des photos")).toBeInTheDocument();
+    expect(screen.getByText("Vérifiez vos annonces")).toBeInTheDocument();
+    expect(screen.getByText("Partagez sur WhatsApp")).toBeInTheDocument();
+    expect(screen.queryByText(/\bIA\b/i)).not.toBeInTheDocument();
   });
 
   it("shows recent listings with prices in FCFA", () => {
     render(<HomePage />);
 
-    expect(screen.getByText("Canapé 3 places")).toBeInTheDocument();
-    expect(screen.getByText("125 000 FCFA")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Canapé 3 places" })).toBeInTheDocument();
+    expect(screen.getAllByText("125 000 FCFA")).toHaveLength(2);
     expect(screen.getByText("Dernières trouvailles")).toBeInTheDocument();
   });
 });
