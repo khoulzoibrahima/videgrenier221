@@ -41,4 +41,17 @@ describe("landing page", () => {
     expect(screen.getAllByText("125 000 FCFA")).toHaveLength(2);
     expect(screen.getByText("Dernières trouvailles")).toBeInTheDocument();
   });
+
+  it("gives buyers a clear way to find nearby deals", () => {
+    render(<HomePage />);
+
+    expect(
+      screen.getByRole("heading", { name: "Achetez près de chez vous" }),
+    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Que cherchez-vous ?")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Maison" })).toHaveAttribute(
+      "href",
+      "/browse?category=maison",
+    );
+  });
 });

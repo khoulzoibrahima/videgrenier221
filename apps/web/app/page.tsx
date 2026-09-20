@@ -9,6 +9,7 @@ import {
   Menu,
   MessageCircle,
   PencilLine,
+  Search,
   Share2,
   ShoppingBag,
   Store,
@@ -112,6 +113,25 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="buyer-section section-wrap">
+          <div className="buyer-copy">
+            <p className="eyebrow">Pour acheter</p>
+            <h2>Achetez près de chez vous</h2>
+            <p>Trouvez un objet au bon prix et contactez directement le vendeur.</p>
+          </div>
+          <form className="buyer-search" action="/browse">
+            <Search aria-hidden="true" />
+            <input name="q" type="search" placeholder="Que cherchez-vous ?" aria-label="Rechercher un objet" />
+            <button className="button button-sun" type="submit">Chercher</button>
+          </form>
+          <nav className="buyer-categories" aria-label="Catégories populaires">
+            <Link href="/browse?category=maison">Maison</Link>
+            <Link href="/browse?category=mode">Mode</Link>
+            <Link href="/browse?category=telephones">Téléphones</Link>
+            <Link href="/browse?category=electromenager">Électroménager</Link>
+          </nav>
+        </section>
+
         <section className="share-section section-wrap">
           <div className="share-icon"><Share2 /></div>
           <div><h2>Une seule boutique à partager</h2><p>Vos objets sont regroupés au même endroit. Envoyez le lien sur WhatsApp et discutez directement avec les acheteurs.</p></div>
@@ -129,4 +149,3 @@ export default function HomePage() {
     </div>
   );
 }
-
