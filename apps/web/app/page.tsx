@@ -1,31 +1,25 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight,
-  Camera,
-  CheckCircle2,
-  Heart,
-  Leaf,
-  MapPin,
-  Menu,
-  MessageCircle,
-  PencilLine,
-  Search,
-  Share2,
-  ShoppingBag,
-  Store,
+  ArrowRight, Baby, BookOpen, Camera, CheckCircle2, Heart, Home,
+  Leaf, MapPin, Menu, MessageCircle, Search, Shirt, ShoppingBag,
+  Smartphone, Store, Wrench,
 } from "lucide-react";
 
-const steps = [
-  { icon: Camera, title: "Prenez des photos", text: "Photographiez les objets que vous voulez vendre." },
-  { icon: PencilLine, title: "Vérifiez vos annonces", text: "Regardez les prix et changez ce que vous voulez." },
-  { icon: MessageCircle, title: "Partagez sur WhatsApp", text: "Envoyez votre boutique à vos proches en un clic." },
+const categories = [
+  { name: "Maison", slug: "maison", icon: Home },
+  { name: "Électronique", slug: "electronique", icon: Smartphone },
+  { name: "Enfants", slug: "enfants", icon: Baby },
+  { name: "Vêtements", slug: "vetements", icon: Shirt },
+  { name: "Outils", slug: "outils", icon: Wrench },
+  { name: "Livres", slug: "livres", icon: BookOpen },
 ];
 
 const listings = [
-  { name: "Canapé 3 places", price: "125 000 FCFA", city: "Dakar", tone: "sofa" },
-  { name: "Table basse", price: "45 000 FCFA", city: "Thiès", tone: "table" },
-  { name: "Lampe sur pied", price: "25 000 FCFA", city: "Rufisque", tone: "lamp" },
-  { name: "Tapis", price: "30 000 FCFA", city: "Mbour", tone: "rug" },
+  { name: "Canapé 3 places", price: "125 000 FCFA", city: "Dakar · Liberté 6", seller: "Awa N.", position: "16% 48%" },
+  { name: "Table basse", price: "45 000 FCFA", city: "Thiès", seller: "Aïssatou D.", position: "55% 58%" },
+  { name: "Lampe sur pied", price: "25 000 FCFA", city: "Rufisque", seller: "Fatou S.", position: "66% 30%" },
+  { name: "Tapis tissé", price: "30 000 FCFA", city: "Saint-Louis", seller: "Cheikh M.", position: "72% 84%" },
 ];
 
 function Brand() {
@@ -42,108 +36,86 @@ export default function HomePage() {
     <div className="site-shell">
       <header className="site-header">
         <Brand />
+        <form className="header-search" action="/browse">
+          <Search aria-hidden="true" />
+          <input name="q" type="search" placeholder="Que cherchez-vous ?" aria-label="Rechercher un objet" />
+        </form>
         <nav className="desktop-nav" aria-label="Navigation principale">
-          <Link href="/browse">Acheter</Link>
-          <Link href="/sell/room">Vendre</Link>
+          <Link href="/browse">Explorer</Link>
           <a href="#comment">Comment ça marche</a>
         </nav>
         <div className="header-actions">
-          <Link className="login-link" href="/login">Se connecter</Link>
+          <Link className="login-link" href="/login">Connexion</Link>
           <Link className="button button-sun header-sell" href="/sell/room">Vendre</Link>
           <button className="mobile-menu" type="button" aria-label="Ouvrir le menu"><Menu /></button>
         </div>
       </header>
 
       <main>
-        <section className="hero section-wrap">
-          <div className="hero-copy">
-            <p className="eyebrow">Achetez et vendez près de chez vous</p>
-            <h1>Vendez facilement ce que vous n’utilisez plus</h1>
-            <p className="hero-lead">Prenez quelques photos. Vérifiez vos prix. Partagez votre boutique sur WhatsApp.</p>
+        <section className="hero-market">
+          <Image className="hero-photo" src="/images/hero-vide-grenier-senegal.png" alt="Objets de seconde main présentés dans une cour sénégalaise" fill priority sizes="100vw" />
+          <div className="hero-shade" />
+          <div className="hero-content section-wrap">
+            <p className="location-line">Dakar · Thiès · Saint-Louis · Tout le Sénégal</p>
+            <h1>Achetez local.<br />Vendez ce qui ne vous sert plus.</h1>
+            <p className="hero-lead">Des objets utiles, près de chez vous. Discutez directement avec le vendeur sur WhatsApp.</p>
             <div className="hero-actions">
-              <Link className="button button-forest" href="/sell/room"><Store /> Créer ma boutique</Link>
-              <Link className="button button-light" href="/browse"><ShoppingBag /> Voir les bonnes affaires</Link>
+              <Link className="button button-forest" href="/browse"><ShoppingBag /> Voir les bonnes affaires</Link>
+              <Link className="button button-cream" href="/sell/room"><Store /> Vendre mes objets</Link>
             </div>
-            <p className="free-note"><CheckCircle2 /> C’est gratuit pour commencer</p>
+            <p className="hero-trust"><CheckCircle2 /> Gratuit pour commencer · Prix en FCFA</p>
           </div>
-
-          <div className="shop-demo" aria-label="Exemple d’une boutique Vide Grenier 221">
-            <div className="demo-top">
-              <div className="avatar">A</div>
-              <div><strong>Boutique de Awa</strong><span><MapPin /> Dakar</span></div>
-              <span className="open-badge">Ouvert</span>
-            </div>
-            <div className="demo-items">
-              {listings.slice(0, 3).map((item) => (
-                <div className="demo-item" key={item.name}>
-                  <div className={`mini-art ${item.tone}`}><span /></div>
-                  <strong>{item.name}</strong><span>{item.price}</span>
-                </div>
-              ))}
-            </div>
-            <div className="demo-share"><MessageCircle /> Partager ma boutique sur WhatsApp</div>
-          </div>
+          <p className="hero-caption">Une seconde vie pour les objets. Une bonne affaire pour le voisin.</p>
         </section>
 
-        <section className="steps-section section-wrap" id="comment">
-          <div className="simple-heading"><span>3 étapes</span><h2>C’est simple</h2></div>
-          <div className="steps-grid">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return <article className="step-card" key={step.title}><b>{index + 1}</b><Icon /><div><h3>{step.title}</h3><p>{step.text}</p></div></article>;
-            })}
-          </div>
-        </section>
+        <nav className="category-strip section-wrap" aria-label="Catégories populaires">
+          {categories.map(({ name, slug, icon: Icon }) => (
+            <Link href={`/browse?category=${slug}`} key={slug}><span><Icon /></span>{name}</Link>
+          ))}
+        </nav>
 
         <section className="listings-section section-wrap">
-          <div className="section-heading">
-            <div><p className="eyebrow">Au Sénégal</p><h2>Dernières trouvailles</h2></div>
-            <Link className="text-link" href="/browse">Tout voir <ArrowRight /></Link>
+          <div className="section-heading market-heading">
+            <div><p className="eyebrow">À saisir maintenant</p><h2>Les bonnes affaires du moment</h2></div>
+            <Link className="text-link" href="/browse">Voir toutes les annonces <ArrowRight /></Link>
           </div>
           <div className="listing-grid">
             {listings.map((item) => (
               <article className="listing-card" key={item.name}>
-                <div className={`listing-art ${item.tone}`} role="img" aria-label={item.name}>
-                  <span className="furniture-shape" />
+                <div className="listing-photo" role="img" aria-label={item.name} style={{ backgroundPosition: item.position }}>
+                  <span>Occasion</span>
                   <button type="button" aria-label={`Ajouter ${item.name} aux favoris`}><Heart /></button>
                 </div>
-                <div className="listing-body"><h3>{item.name}</h3><p><MapPin /> {item.city}</p><strong>{item.price}</strong></div>
+                <div className="listing-body">
+                  <h3>{item.name}</h3><strong>{item.price}</strong>
+                  <p><span className="seller-dot">{item.seller.charAt(0)}</span>{item.seller}<MapPin /> {item.city}</p>
+                </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="buyer-section section-wrap">
-          <div className="buyer-copy">
-            <p className="eyebrow">Pour acheter</p>
-            <h2>Achetez près de chez vous</h2>
-            <p>Trouvez un objet au bon prix et contactez directement le vendeur.</p>
-          </div>
-          <form className="buyer-search" action="/browse">
-            <Search aria-hidden="true" />
-            <input name="q" type="search" placeholder="Que cherchez-vous ?" aria-label="Rechercher un objet" />
-            <button className="button button-sun" type="submit">Chercher</button>
-          </form>
-          <nav className="buyer-categories" aria-label="Catégories populaires">
-            <Link href="/browse?category=maison">Maison</Link>
-            <Link href="/browse?category=mode">Mode</Link>
-            <Link href="/browse?category=telephones">Téléphones</Link>
-            <Link href="/browse?category=electromenager">Électroménager</Link>
-          </nav>
+        <section className="local-note section-wrap">
+          <span className="note-number">221</span>
+          <div><p className="eyebrow">Notre idée est simple</p><h2>Acheter local, c’est garder l’argent près de chez nous.</h2></div>
+          <p>Moins de gaspillage, plus de bonnes histoires. Chaque objet vendu peut servir à une autre famille au Sénégal.</p>
         </section>
 
-        <section className="share-section section-wrap">
-          <div className="share-icon"><Share2 /></div>
-          <div><h2>Une seule boutique à partager</h2><p>Vos objets sont regroupés au même endroit. Envoyez le lien sur WhatsApp et discutez directement avec les acheteurs.</p></div>
-          <Link className="button button-sun" href="/sell/room">Commencer maintenant</Link>
+        <section className="steps-section section-wrap" id="comment">
+          <div className="simple-heading"><span>Pour vendre</span><h2>Trois gestes, c’est tout</h2></div>
+          <div className="steps-grid">
+            <article className="step-card"><b>1</b><Camera /><div><h3>Prenez vos photos</h3><p>Un objet ou toute une pièce.</p></div></article>
+            <article className="step-card"><b>2</b><CheckCircle2 /><div><h3>Vérifiez le prix</h3><p>Vous décidez avant de publier.</p></div></article>
+            <article className="step-card"><b>3</b><MessageCircle /><div><h3>Partagez sur WhatsApp</h3><p>Votre boutique tient dans un lien.</p></div></article>
+          </div>
         </section>
       </main>
 
       <footer className="site-footer">
         <div className="section-wrap footer-inner">
-          <div><Brand /><p>Achetez. Vendez. Près de chez vous.</p></div>
+          <div><Brand /><p>Acheter local. Vendre utile. Partager mieux.</p></div>
           <div className="footer-links"><Link href="/browse">Acheter</Link><Link href="/sell/room">Vendre</Link><Link href="/safety">Sécurité</Link></div>
-          <p className="copyright">© 2026 VideGrenier221 · Sénégal</p>
+          <p className="copyright">© 2026 VideGrenier221 · Fait pour le Sénégal</p>
         </div>
       </footer>
     </div>
