@@ -36,6 +36,8 @@ class AvatarApiTest {
 
     @BeforeEach
     void clearUsers() {
+        jdbc.update("delete from listings");
+        jdbc.update("delete from shops");
         jdbc.update("delete from users");
     }
 
