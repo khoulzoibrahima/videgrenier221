@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-class CurrentUserService {
+public class CurrentUserService {
     private final JdbcTemplate jdbc;
 
     CurrentUserService(JdbcTemplate jdbc) {
@@ -16,7 +16,7 @@ class CurrentUserService {
     }
 
     @Transactional
-    CurrentUserResponse synchronize(FirebaseIdentity identity) {
+    public CurrentUserResponse synchronize(FirebaseIdentity identity) {
         var existing = jdbc.query("select id from users where firebase_uid = ?",
             (rs, rowNum) -> rs.getObject("id", UUID.class), identity.uid());
         var now = OffsetDateTime.now(ZoneOffset.UTC);
