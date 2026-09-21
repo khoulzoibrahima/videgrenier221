@@ -70,7 +70,9 @@ Lors d’un remplacement réussi, le backend enregistre le nouvel identifiant pu
 
 ## Validation et erreurs
 
-Le nom est nettoyé et doit contenir au moins deux caractères. Le numéro WhatsApp accepte la saisie locale et est normalisé au format international `+221XXXXXXXXX`. La ville/commune est obligatoire mais reste du texte libre pour couvrir tout le Sénégal.
+Le nom est nettoyé et doit contenir au moins deux caractères. Le numéro WhatsApp accepte la saisie locale, doit contenir exactement neuf chiffres sénégalais et est normalisé au format international `+221XXXXXXXXX`. La ville/commune est obligatoire mais reste du texte libre pour couvrir tout le Sénégal.
+
+Le MVP vérifie uniquement le format du numéro. Il n’envoie aucun code par SMS ou WhatsApp et ne prétend pas confirmer que le numéro appartient à l’utilisateur. Une vérification OTP pourra être étudiée après validation de l’usage réel du service.
 
 Le formulaire emploie des messages simples : « Entrez votre numéro WhatsApp », « Choisissez une photo de moins de 2 Mo » et « Impossible d’enregistrer. Réessayez. » Une erreur d’image ne doit jamais effacer les autres champs.
 
@@ -90,6 +92,7 @@ Le formulaire emploie des messages simples : « Entrez votre numéro WhatsApp »
 - un nouveau compte est dirigé vers `/profile/setup` ;
 - nom, WhatsApp et ville sont obligatoires ;
 - le numéro est enregistré au format `+221` ;
+- aucun service OTP ou fournisseur de SMS/WhatsApp n’est requis dans le MVP ;
 - un avatar valide peut être ajouté, remplacé et supprimé ;
 - un fichier invalide ou trop lourd est refusé ;
 - un profil incomplet ne peut pas accéder au parcours vendeur ;
