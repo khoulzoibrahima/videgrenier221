@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight, Baby, BookOpen, Heart, Home, Leaf, MapPin, Menu,
+  ArrowRight, Baby, BookOpen, Camera, Heart, Home, Leaf, MapPin, Menu,
   MoreHorizontal, Search, Shirt, Smartphone, Store,
   UserRound, UsersRound, Wrench,
 } from "lucide-react";
@@ -77,16 +77,18 @@ export default function HomePage() {
           </div>
         </section>
 
+        <aside className="room-promo section-wrap">
+          <span className="promo-box"><Camera /></span>
+          <div className="promo-copy"><strong>Videz une pièce, vendez plusieurs objets</strong><p>Prenez jusqu’à 3 photos. Nous préparons les annonces.</p></div>
+          <Link className="promo-action" href="/sell/room">Photographier ma pièce <ArrowRight /></Link>
+        </aside>
+
         <div className="discovery-row section-wrap">
           <nav className="category-strip" aria-label="Catégories populaires">
             {categories.map(({ name, slug, icon: Icon }) => (
               <Link data-testid="market-category" href={`/browse?category=${slug}`} key={slug}><span><Icon /></span>{name}</Link>
             ))}
           </nav>
-          <aside className="room-promo">
-            <span className="promo-box"><Store /></span>
-            <div><strong>Videz une pièce en quelques minutes</strong><p>Prenez vos photos, nous préparons vos annonces.</p><Link href="/sell/room">Essayer maintenant <ArrowRight /></Link></div>
-          </aside>
         </div>
 
         <section className="listings-section section-wrap">

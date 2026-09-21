@@ -73,7 +73,8 @@ describe("landing page", () => {
     expect(screen.getByRole("link", { name: "Vide-greniers" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /le vide-grenier en ligneprès de chez vous/i })).toBeInTheDocument();
     expect(screen.getAllByTestId("market-category")).toHaveLength(7);
-    expect(screen.getByText("Videz une pièce en quelques minutes")).toBeInTheDocument();
+    expect(screen.getByText("Videz une pièce, vendez plusieurs objets")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Photographier ma pièce" })).toHaveAttribute("href", "/sell/room");
     expect(screen.getAllByTestId("listing-card")).toHaveLength(6);
   });
 });
