@@ -1,5 +1,12 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  type User,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,11 +25,13 @@ function firebaseAuth() {
 
 export async function signInWithGoogle() {
   const result = await signInWithPopup(firebaseAuth(), new GoogleAuthProvider());
+  return result.user;
+}
 
-  const idToken = await result.user.getIdToken();
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080"}/api/v1/me`, {
-    headers: { Authorization: `Bearer ${idToken}` },
-  });
-  if (!response.ok) throw new Error("Connexion refusée. Veuillez réessayer.");
-  return true;
+export function observeAuthState(callback: (user: User | null) => void) {
+  return onAuthStateChanged(firebaseAuth(), callback);
+}
+
+export function signOutFirebase() {
+  return signOut(firebaseAuth());
 }

@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowRight, Baby, BookOpen, Camera, Heart, Home, Leaf, MapPin, Menu,
+  ArrowRight, Baby, BookOpen, Camera, Heart, Home, Leaf, MapPin,
   MoreHorizontal, Search, Shirt, Smartphone, Store,
-  UserRound, UsersRound, Wrench,
+  UsersRound, Wrench,
 } from "lucide-react";
+import { SiteHeader } from "../components/site-header";
 
 const categories = [
   { name: "Maison", slug: "maison", icon: Home },
@@ -37,23 +38,7 @@ function Brand() {
 export default function HomePage() {
   return (
     <div className="site-shell">
-      <header className="site-header">
-        <Brand />
-        <form className="header-search" action="/browse">
-          <Search aria-hidden="true" />
-          <input name="q" type="search" placeholder="Que cherchez-vous ?" aria-label="Rechercher un objet" />
-        </form>
-        <nav className="desktop-nav" aria-label="Navigation principale">
-          <Link className="active" href="/browse">Explorer</Link>
-          <Link href="/shops">Vide-greniers</Link>
-          <a href="#comment">Comment ça marche</a>
-        </nav>
-        <div className="header-actions">
-          <Link className="button button-sun header-sell" href="/sell/room">+ Vendre mes objets</Link>
-          <Link className="profile-link" href="/login" aria-label="Connexion"><UserRound /></Link>
-          <button className="mobile-menu" type="button" aria-label="Ouvrir le menu"><Menu /></button>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main>
         <section className="hero-market section-wrap">

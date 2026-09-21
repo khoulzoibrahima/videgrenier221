@@ -27,6 +27,8 @@ class AuthApiTest {
 
     @BeforeEach
     void clearUsers() {
+        jdbc.update("delete from listings");
+        jdbc.update("delete from shops");
         jdbc.update("delete from users");
     }
 
@@ -42,7 +44,9 @@ class AuthApiTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.firebaseUid").value("google-awa"))
             .andExpect(jsonPath("$.email").value("awa@gmail.com"))
-            .andExpect(jsonPath("$.displayName").value("Awa Ndiaye"));
+            .andExpect(jsonPath("$.displayName").value("Awa Ndiaye"))
+            .andExpect(jsonPath("$.googleAvatarUrl").value("https://google.test/awa.jpg"))
+            .andExpect(jsonPath("$.profileComplete").value(false));
     }
 
     @Test
@@ -64,7 +68,7 @@ class AuthApiTest {
                 if (!"valid-token".equals(token)) {
                     throw new InvalidIdentityTokenException();
                 }
-                return new FirebaseIdentity("google-awa", "awa@gmail.com", "Awa Ndiaye", null);
+                return new FirebaseIdentity("google-awa", "awa@gmail.com", "Awa Ndiaye", "https://google.test/awa.jpg");
             };
         }
     }

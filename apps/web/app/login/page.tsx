@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { CheckCircle2, Leaf, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { signInWithGoogle } from "../../lib/firebase";
+import { useSession } from "../../lib/session";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { refreshProfile } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -15,8 +17,9 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     try {
-      await signInWithGoogle();
-      router.replace("/sell/room");
+      const user = await signInWithGoogle();
+      const profile = await refreshProfile(user);
+      router.replace(profile.profileComplete ? "/sell/room" : "/profile/setup");
     } catch (caught) {
       setLoading(false);
       setError(caught instanceof Error ? caught.message : "La connexion n’a pas fonctionné.");

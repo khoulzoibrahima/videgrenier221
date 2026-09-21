@@ -7,5 +7,10 @@ public record CurrentUserResponse(
     String firebaseUid,
     String email,
     String displayName,
-    String avatarUrl
+    String avatarUrl,
+    String googleAvatarUrl,
+    String whatsappNumber,
+    String city,
+    String avatarPublicId,
+    boolean profileComplete
 ) {}

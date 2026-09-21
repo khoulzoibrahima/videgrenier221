@@ -6,6 +6,7 @@ import "@fontsource/dm-sans/700.css";
 import "@fontsource/libre-baskerville/400.css";
 import "@fontsource/libre-baskerville/700.css";
 import "./globals.css";
+import { SessionProvider } from "../lib/session";
 
 export const metadata: Metadata = {
   title: "VideGrenier221 — Vendez autrement au Sénégal",
@@ -17,6 +18,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#064d3b", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="fr"><body>{children}</body></html>;
+  return <html lang="fr"><body><SessionProvider>{children}</SessionProvider></body></html>;
 }
-
