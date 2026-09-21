@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/dm-sans": "latest",
     "@fontsource/libre-baskerville": "latest",
+    "firebase": "12.4.0",
     "lucide-react": "latest",
     "next": "latest",
     "react": "latest",
