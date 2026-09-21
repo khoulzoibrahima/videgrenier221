@@ -2,16 +2,23 @@ import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/re
 import { afterEach, describe, expect, it, vi } from "vitest";
 import LoginPage from "./page";
 
-const { replace } = vi.hoisted(() => ({ replace: vi.fn() }));
+const { replace, refreshProfile, signInWithGoogle } = vi.hoisted(() => ({
+  replace: vi.fn(),
+  refreshProfile: vi.fn(),
+  signInWithGoogle: vi.fn().mockResolvedValue({ uid: "google-awa" }),
+}));
 
 vi.mock("../../lib/firebase", () => ({
-  signInWithGoogle: vi.fn().mockResolvedValue(true),
+  signInWithGoogle,
 }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ replace }) }));
+vi.mock("../../lib/session", () => ({ useSession: () => ({ refreshProfile }) }));
 
 afterEach(() => {
   cleanup();
   replace.mockClear();
+  refreshProfile.mockReset();
+  signInWithGoogle.mockClear();
 });
 
 describe("login page", () => {
@@ -23,7 +30,17 @@ describe("login page", () => {
     expect(screen.getByText("Aucun mot de passe à retenir.")).toBeInTheDocument();
   });
 
-  it("opens the selling journey after Google sign-in", async () => {
+  it("opens profile setup after first Google sign-in", async () => {
+    refreshProfile.mockResolvedValue({ profileComplete: false });
+    render(<LoginPage />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continuer avec Google" }));
+
+    await waitFor(() => expect(replace).toHaveBeenCalledWith("/profile/setup"));
+  });
+
+  it("continues to the selling journey when the profile is complete", async () => {
+    refreshProfile.mockResolvedValue({ profileComplete: true });
     render(<LoginPage />);
 
     fireEvent.click(screen.getByRole("button", { name: "Continuer avec Google" }));
