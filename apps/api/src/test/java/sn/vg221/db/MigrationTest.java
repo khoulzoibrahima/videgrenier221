@@ -25,4 +25,17 @@ class MigrationTest {
             "reservations", "analysis_jobs", "reports", "events"
         );
     }
+
+    @Test
+    void addsUserProfileColumns() {
+        List<String> columns = jdbc.queryForList(
+            "select column_name from information_schema.columns where table_schema = 'public' and table_name = 'users'",
+            String.class
+        );
+
+        assertThat(columns).contains(
+            "google_avatar_url", "whatsapp_number", "city",
+            "avatar_public_id", "profile_completed_at"
+        );
+    }
 }
