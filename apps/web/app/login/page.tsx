@@ -3,27 +3,20 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Leaf, LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import { completeGoogleSignIn, signInWithGoogle } from "../../lib/firebase";
+import { useState } from "react";
+import { signInWithGoogle } from "../../lib/firebase";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    completeGoogleSignIn()
-      .then((connected) => {
-        if (connected) router.replace("/sell/room");
-      })
-      .catch((caught: Error) => setError(caught.message));
-  }, [router]);
-
   async function connect() {
     setLoading(true);
     setError("");
     try {
       await signInWithGoogle();
+      router.replace("/sell/room");
     } catch (caught) {
       setLoading(false);
       setError(caught instanceof Error ? caught.message : "La connexion n’a pas fonctionné.");

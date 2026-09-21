@@ -1,5 +1,5 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,12 +17,7 @@ function firebaseAuth() {
 }
 
 export async function signInWithGoogle() {
-  await signInWithRedirect(firebaseAuth(), new GoogleAuthProvider());
-}
-
-export async function completeGoogleSignIn() {
-  const result = await getRedirectResult(firebaseAuth());
-  if (!result) return false;
+  const result = await signInWithPopup(firebaseAuth(), new GoogleAuthProvider());
 
   const idToken = await result.user.getIdToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080"}/api/v1/me`, {
