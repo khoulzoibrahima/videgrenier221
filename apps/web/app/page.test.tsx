@@ -13,24 +13,24 @@ describe("landing page", () => {
     ).toHaveLength(2);
   });
 
-  it("explains the selling journey in everyday language", () => {
+  it("explains buying and selling in everyday language", () => {
     render(<HomePage />);
 
     expect(
       screen.getByRole("heading", {
-        name: /achetez local.*vendez ce qui ne vous sert plus/i,
+        name: /le vide-grenier en ligneprès de chez vous/i,
       }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /vendre mes objets/i }),
     ).toHaveAttribute("href", "/sell/room");
-    expect(screen.getByRole("link", { name: /voir les bonnes affaires/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /explorer les bonnes affaires/i })).toHaveAttribute(
       "href",
       "/browse",
     );
-    expect(screen.getByText("Prenez vos photos")).toBeInTheDocument();
-    expect(screen.getByText("Vérifiez le prix")).toBeInTheDocument();
-    expect(screen.getByText("Partagez sur WhatsApp")).toBeInTheDocument();
+    expect(screen.getByText("Objets de", { exact: false })).toBeInTheDocument();
+    expect(screen.getByText("Des particuliers", { exact: false })).toBeInTheDocument();
+    expect(screen.getByText("Une consommation", { exact: false })).toBeInTheDocument();
     expect(screen.queryByText(/\bIA\b/i)).not.toBeInTheDocument();
   });
 
@@ -42,14 +42,14 @@ describe("landing page", () => {
       "href",
       "/browse?category=electronique",
     );
-    expect(screen.getByText("Acheter local, c’est garder l’argent près de chez nous.")).toBeInTheDocument();
+    expect(screen.getByText("Achetez et vendez facilement les objets qui dorment dans vos maisons.")).toBeInTheDocument();
   });
 
   it("shows recent listings with prices in FCFA", () => {
     render(<HomePage />);
 
-    expect(screen.getByRole("heading", { name: "Canapé 3 places" })).toBeInTheDocument();
-    expect(screen.getByText("125 000 FCFA")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "iPhone 11 – 64 Go" })).toBeInTheDocument();
+    expect(screen.getByText("75 000 FCFA")).toBeInTheDocument();
     expect(screen.getByText("Les bonnes affaires du moment")).toBeInTheDocument();
   });
 
@@ -61,9 +61,19 @@ describe("landing page", () => {
       "href",
       "/browse?category=maison",
     );
-    expect(screen.getByRole("link", { name: /voir les bonnes affaires/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /explorer les bonnes affaires/i })).toHaveAttribute(
       "href",
       "/browse",
     );
+  });
+
+  it("matches the marketplace-first landing structure", () => {
+    render(<HomePage />);
+
+    expect(screen.getByRole("link", { name: "Vide-greniers" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /le vide-grenier en ligneprès de chez vous/i })).toBeInTheDocument();
+    expect(screen.getAllByTestId("market-category")).toHaveLength(7);
+    expect(screen.getByText("Videz une pièce en quelques minutes")).toBeInTheDocument();
+    expect(screen.getAllByTestId("listing-card")).toHaveLength(6);
   });
 });
