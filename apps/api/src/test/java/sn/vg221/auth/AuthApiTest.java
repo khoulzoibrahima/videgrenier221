@@ -1,6 +1,8 @@
 package sn.vg221.auth;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +43,16 @@ class AuthApiTest {
             .andExpect(jsonPath("$.firebaseUid").value("google-awa"))
             .andExpect(jsonPath("$.email").value("awa@gmail.com"))
             .andExpect(jsonPath("$.displayName").value("Awa Ndiaye"));
+    }
+
+    @Test
+    void allowsTheLocalWebAppToCallTheApi() throws Exception {
+        mvc.perform(options("/api/v1/me")
+                .header("Origin", "http://localhost:3000")
+                .header("Access-Control-Request-Method", "GET")
+                .header("Access-Control-Request-Headers", "Authorization"))
+            .andExpect(status().isOk())
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:3000"));
     }
 
     @TestConfiguration
